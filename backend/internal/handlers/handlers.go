@@ -38,7 +38,8 @@ func GetCarpools(c *gin.Context) {
 	status := c.Query("status")
 	var carpools []models.Carpool
 
-	query := database.DB.Preload("Script").Preload("Room").Preload("Players")
+	query := database.DB.Preload("Script").Preload("Room").Preload("Players").
+		Preload("Waitlist", "status = ?", "waiting")
 
 	if status != "" {
 		query = query.Where("status = ?", status)
@@ -338,7 +339,8 @@ func SeedData() {
 }
 
 func AutoMigrate() {
-	database.DB.AutoMigrate(&models.Script{}, &models.Room{}, &models.Carpool{}, &models.Player{})
+	database.DB.AutoMigrate(&models.Script{}, &models.Room{}, &models.Carpool{},
+		&models.Player{}, &models.Waitlist{}, &models.Notification{})
 	EnforceDataConsistency()
 }
 

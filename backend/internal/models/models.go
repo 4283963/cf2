@@ -41,7 +41,9 @@ type Carpool struct {
 	RequiredPlayers int           `gorm:"not null" json:"required_players"`
 	Status         string         `gorm:"default:recruiting" json:"status"`
 	StartTime      *time.Time     `json:"start_time"`
+	DepositAmount  float64        `gorm:"default:0" json:"deposit_amount"`
 	Players        []Player       `gorm:"foreignKey:CarpoolID" json:"players"`
+	Waitlist       []Waitlist     `gorm:"foreignKey:CarpoolID" json:"waitlist,omitempty"`
 	CreatedAt      time.Time      `json:"created_at"`
 	UpdatedAt      time.Time      `json:"updated_at"`
 	DeletedAt      gorm.DeletedAt `gorm:"index" json:"-"`
@@ -53,7 +55,32 @@ type Player struct {
 	Name        string         `gorm:"not null" json:"name"`
 	Contact     string         `json:"contact"`
 	IsHost      bool           `gorm:"default:false" json:"is_host"`
+	DepositPaid bool           `gorm:"default:false" json:"deposit_paid"`
 	CreatedAt   time.Time      `json:"created_at"`
 	UpdatedAt   time.Time      `json:"updated_at"`
 	DeletedAt   gorm.DeletedAt `gorm:"index" json:"-"`
+}
+
+type Waitlist struct {
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	CarpoolID uint           `gorm:"not null;index" json:"carpool_id"`
+	Carpool   Carpool        `gorm:"foreignKey:CarpoolID" json:"-"`
+	Name      string         `gorm:"not null" json:"name"`
+	Contact   string         `json:"contact"`
+	Position  int            `gorm:"not null" json:"position"`
+	Status    string         `gorm:"default:waiting" json:"status"`
+	CreatedAt time.Time      `json:"created_at"`
+	UpdatedAt time.Time      `json:"updated_at"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
+}
+
+type Notification struct {
+	ID        uint           `gorm:"primaryKey" json:"id"`
+	User      string         `gorm:"not null" json:"user"`
+	CarpoolID uint           `json:"carpool_id"`
+	Type      string         `gorm:"not null" json:"type"`
+	Message   string         `gorm:"not null" json:"message"`
+	IsRead    bool           `gorm:"default:false" json:"is_read"`
+	CreatedAt time.Time      `json:"created_at"`
+	DeletedAt gorm.DeletedAt `gorm:"index" json:"-"`
 }

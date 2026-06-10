@@ -22,6 +22,7 @@ func main() {
 
 	handlers.AutoMigrate()
 	handlers.SeedData()
+	handlers.StartScheduler()
 
 	r := gin.Default()
 
@@ -39,6 +40,13 @@ func main() {
 		api.GET("/carpools", handlers.GetCarpools)
 		api.POST("/carpools", handlers.CreateCarpool)
 		api.POST("/carpools/join", handlers.JoinCarpool)
+		api.POST("/carpools/leave", handlers.LeaveCarpool)
+		api.POST("/carpools/cancel", handlers.CancelCarpool)
+
+		api.GET("/waitlist", handlers.GetWaitlist)
+		api.POST("/waitlist", handlers.JoinWaitlist)
+
+		api.GET("/notifications", handlers.GetNotifications)
 	}
 
 	port := os.Getenv("SERVER_PORT")
