@@ -50,10 +50,10 @@ func get(path string, out interface{}) error {
 }
 
 type Carpool struct {
-	ID              uint   `json:"id"`
-	CurrentPlayers  int    `json:"current_players"`
-	RequiredPlayers int    `json:"required_players"`
-	Status          string `json:"status"`
+	ID             uint   `json:"id"`
+	CurrentPlayers int    `json:"current_players"`
+	RequiredPlayers int   `json:"required_players"`
+	Status         string `json:"status"`
 }
 
 func main() {

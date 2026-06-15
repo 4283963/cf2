@@ -238,7 +238,7 @@ export default function CarpoolCard({ carpool, currentUser, onRefresh }) {
                 >
                   {player.is_host && <span className="text-yellow-400">👑</span>}
                   <span>{player.name}</span>
-                  {player.deposit_paid && <span className="text-yellow-400 text-xs">�</span>}
+                  {player.deposit_paid && <span className="text-yellow-400 text-xs">💳</span>}
                 </div>
               ))}
             </div>
